@@ -1,4 +1,4 @@
-# food-recognition
+# MIPT.HACK
 
 MIPT.HACK
 Team: DEV Bears
