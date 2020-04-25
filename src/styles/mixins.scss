@@ -1,0 +1,21 @@
+@mixin set-font(
+  $family: 'Montserrat',
+  $weight: false,
+  $size: false,
+  $lineHeight: false,
+  $colour: false
+) {
+  font-family: $family, sans-serif;
+  @if $weight {
+    font-weight: $weight;
+  }
+  @if $size {
+    font-size: $size;
+  }
+  @if $lineHeight {
+    line-height: $lineHeight;
+  }
+  @if $colour {
+    color: $colour;
+  }
+}
