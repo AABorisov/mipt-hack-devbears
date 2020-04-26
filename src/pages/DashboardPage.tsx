@@ -21,46 +21,75 @@ const DashboardPage: React.FC<{}> = () => {
     if (plant.plant_id !== 7) {
       return acc;
     }
+
+    let average = {};
+
+    const reduced = plant.resourceGroups.reduce((acc2, resourceGroup) => {
+      if (
+        ![
+          'G_CMO2',
+          'G_ATO2',
+          'G_UNRO2',
+          'G_DSO2',
+          'G_VSO2',
+          'G_MFO2',
+          'G_VAO2',
+          'G_OTGRO2',
+        ].includes(resourceGroup.resourceGroupId)
+      ) {
+        return acc2;
+      }
+      return [
+        ...acc2,
+        {
+          name: resourceGroup.resourceGroupName,
+          key: resourceGroup.resourceGroupId,
+          ...resourceGroup.dates.reduce((acc3, date) => {
+            const start_plan_date: string = date.start_plan_date.split('T')[0];
+
+            columnSet.add(start_plan_date);
+
+            if (date.color >= 0) {
+              if (!average.hasOwnProperty(start_plan_date)) {
+                // @ts-ignore
+                average[start_plan_date] = {
+                  percentage: 0,
+                  count: 0
+                };
+              }
+              // @ts-ignore
+              average[start_plan_date].percentage += date.percentage;
+              // @ts-ignore
+              average[start_plan_date].count += 1;
+            }
+
+            // @ts-ignore
+            acc3[start_plan_date] = {
+              percentage: date.percentage,
+              color: date.color
+            };
+            return acc3;
+          }, {}),
+        },
+      ];
+    }, []);
     return [
       ...acc,
       {
         name: plant.plant_name,
         key: plant.plant_id,
+        ...Object.entries(average).reduce((avr, [date, value]) => {
+          // @ts-ignore
+          const percentage = (value.percentage / value.count);
+          // @ts-ignore
+          avr[date] = {
+            percentage,
+            color: percentage > 95 ? 2 : percentage > 80 ? 1 : 0,
+          };
+          return avr
+        }, {})
       },
-      ...plant.resourceGroups.reduce((acc2, resourceGroup) => {
-        if (
-          ![
-            'G_CMO2',
-            'G_ATO2',
-            'G_UNRO2',
-            'G_DSO2',
-            'G_VSO2',
-            'G_MFO2',
-            'G_VAO2',
-            'G_OTGRO2',
-          ].includes(resourceGroup.resourceGroupId)
-        ) {
-          return acc2;
-        }
-        return [
-          ...acc2,
-          {
-            name: resourceGroup.resourceGroupName,
-            key: resourceGroup.resourceGroupId,
-            ...resourceGroup.dates.reduce((acc3, date) => {
-              const start_plan_date = date.start_plan_date.split('T')[0];
-
-              columnSet.add(start_plan_date);
-              // @ts-ignore
-              acc3[start_plan_date] = {
-                percentage: date.percentage,
-                color: date.color
-              };
-              return acc3;
-            }, {}),
-          },
-        ];
-      }, []),
+      ...reduced,
     ];
   }, []);
 
@@ -88,9 +117,9 @@ const DashboardPage: React.FC<{}> = () => {
       default:
         color = 'cyan';
     }
-    return <a><Tag color={color} >
+    return <Tag color={color} >
       {tag.percentage + ' %'}
-    </Tag></a>
+    </Tag>
   };
 
   column.push(
@@ -134,6 +163,7 @@ const DashboardPage: React.FC<{}> = () => {
             togglePopup(true);
           },
         })}
+        size='small'
         style={{width: "1000px"}}
       />
     </div>
