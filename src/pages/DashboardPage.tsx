@@ -1,18 +1,20 @@
 import { useState } from 'react';
 import * as React from 'react';
-import { Modal, Table } from 'antd';
 import { NavLink } from 'react-router-dom';
+import { Modal, Table, Tag } from 'antd';
+import {ColumnProps} from "antd/es/table/Column";
 import row from './mocks/row';
 import table from './mocks/table';
 
 const DashboardPage: React.FC<{}> = () => {
-  let data = [];
+  let data;
   const columnSet = new Set();
-  const column = [
+  const column: Array<ColumnProps<any>> = [
     {
       title: '',
       dataIndex: 'name',
       key: 'name',
+      fixed: 'left',
     },
   ];
   data = table.reduce((acc, plant) => {
@@ -50,7 +52,10 @@ const DashboardPage: React.FC<{}> = () => {
 
               columnSet.add(start_plan_date);
               // @ts-ignore
-              acc3[start_plan_date] = date.percentage;
+              acc3[start_plan_date] = {
+                percentage: date.percentage,
+                color: date.color
+              };
               return acc3;
             }, {}),
           },
@@ -59,11 +64,41 @@ const DashboardPage: React.FC<{}> = () => {
     ];
   }, []);
 
+  const percentageRender = (tag: {color: number, percentage: number}) => {
+    if (!tag) {
+      return "";
+    }
+    let color;
+    switch(tag.color) {
+      case 2:
+        color = 'green';
+        break;
+      case 1:
+        color = 'orange';
+        break;
+      case 0:
+        color = 'volcano';
+        break;
+      case -1:
+        color = 'blue';
+        break;
+      case -2:
+        color = 'purple';
+        break;
+      default:
+        color = 'cyan';
+    }
+    return <a><Tag color={color} >
+      {tag.percentage + ' %'}
+    </Tag></a>
+  };
+
   column.push(
     ...[...columnSet].sort().map((value: string) => ({
       title: value,
       dataIndex: value,
       key: value,
+      render: percentageRender,
     }))
   );
 
@@ -92,11 +127,14 @@ const DashboardPage: React.FC<{}> = () => {
       <Table
         dataSource={data}
         columns={column}
+        pagination={false}
+        scroll={{x:true}}
         onRow={(record, rowIndex) => ({
           onClick: event => {
             togglePopup(true);
           },
         })}
+        style={{width: "1000px"}}
       />
     </div>
   );
