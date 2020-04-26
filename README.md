@@ -17,6 +17,6 @@ MIPT.HACK accenture track
 
 #### [Backend](https://github.com/evgenywork/accenture)
 
-#### [Research](https://github.com/avk0/MIPTHack-accenture)
+#### [Research | Jupyter](https://github.com/avk0/MIPTHack-accenture)
 
 #### [Deployed](https://mipt-hack-devbears.herokuapp.com/)
