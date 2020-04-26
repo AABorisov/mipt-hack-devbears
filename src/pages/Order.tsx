@@ -153,7 +153,10 @@ const Order = () => {
       </div>
       <br />
       <div style={{ width: '1000px', overflowY: 'scroll' }}>
-        <Table dataSource={order.plan_orders} columns={columns} />
+        <Table dataSource={order.plan_orders}
+               columns={columns}
+               size="small"
+        />
       </div>
     </div>
   );

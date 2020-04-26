@@ -16,27 +16,10 @@ const DashboardPage: React.FC<{}> = () => {
     },
   ];
   const data = table.reduce((acc, plant) => {
-    if (plant.plant_id !== 7) {
-      return acc;
-    }
 
     const average = {};
 
     const reduced = plant.resourceGroups.reduce((acc2, resourceGroup) => {
-      if (
-        ![
-          'G_CMO2',
-          'G_ATO2',
-          'G_UNRO2',
-          'G_DSO2',
-          'G_VSO2',
-          'G_MFO2',
-          'G_VAO2',
-          'G_OTGRO2',
-        ].includes(resourceGroup.resourceGroupId)
-      ) {
-        return acc2;
-      }
       return [
         ...acc2,
         {
@@ -79,7 +62,7 @@ const DashboardPage: React.FC<{}> = () => {
         key: plant.plant_id,
         ...Object.entries(average).reduce((avr, [date, value]) => {
           // @ts-ignore
-          const percentage = value.percentage / value.count;
+          const percentage = Math.round(value.percentage / value.count);
           const color = percentage > 95 ? 2 : percentage > 80 ? 1 : 0;
           // @ts-ignore
           avr[date] = {
@@ -155,14 +138,14 @@ const DashboardPage: React.FC<{}> = () => {
         dataSource={data}
         columns={column}
         pagination={false}
-        scroll={{ x: true }}
+        scroll={{ x: true, y: 600 }}
         onRow={(record, rowIndex) => ({
           onClick: event => {
             togglePopup(true);
           },
         })}
         size="small"
-        style={{ width: '1000px' }}
+        style={{ width: '1000px', height: '70vh' }}
       />
     </div>
   );
@@ -269,7 +252,7 @@ const ModalContent = () => {
       </div>
       <br />
       <div style={{ overflowY: 'scroll' }}>
-        <Table dataSource={data} columns={columns} />
+        <Table dataSource={data} columns={columns} size="small" />
       </div>
     </div>
   );
