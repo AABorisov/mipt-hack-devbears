@@ -151,7 +151,7 @@ const Order = () => {
         {order.resource_group_id}
       </div>
       <br />
-      <div style={{ width: '1000px', overflowY: 'scroll' }}>
+      <div style={{ width: '1000px' }}>
         <Table dataSource={order.plan_orders} columns={columns} size="small"
                pagination={false}
                scroll={{ x: true, y: '60vh' }}

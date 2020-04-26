@@ -161,67 +161,67 @@ export default DashboardPage;
 const ModalContent = () => {
   const data = row.operations;
 
-  const columns = [
+  const columns: Array<ColumnProps<any>>  = [
+    {
+      title: 'COLAlloc',
+      dataIndex: 'order_id',
+      key: 'order_id',
+      render: (orderId: string) => <NavLink to={`/order/${orderId}`}>{orderId}</NavLink>,
+      fixed: 'left',
+    },
     {
       title: 'Operation ID',
       dataIndex: 'operation_id',
       key: 'operation_id',
+      fixed: 'left',
     },
     {
       title: 'Operation description',
       dataIndex: 'operation_description',
       key: 'operation_description',
+      width: '50px',
     },
     {
       title: 'Start date new',
       dataIndex: 'start_date_new',
       key: 'start_date_new',
+      width: '60px',
     },
     {
       title: 'End date',
       dataIndex: 'end_date',
       key: 'end_date',
-    },
-    {
-      title: 'Production time',
-      dataIndex: 'production_time',
-      key: 'production_time',
+      width: '60px',
     },
     {
       title: 'Input quantity',
       dataIndex: 'input_quantity',
       key: 'input_quantity',
+      width: '60px',
     },
     {
       title: 'Output quantity',
       dataIndex: 'output_quantity',
       key: 'output_quantity',
-    },
-    {
-      title: 'Scheduling space',
-      dataIndex: 'scheduling_space',
-      key: 'scheduling_space',
+      width: '60px',
     },
     {
       title: 'Operation code',
       dataIndex: 'operation_code',
       key: 'operation_code',
+      width: '60px',
     },
     {
       title: 'Product ID',
       dataIndex: 'product_id',
       key: 'product_id',
+      width: '60px',
     },
     {
       title: 'Product name',
       dataIndex: 'product_name',
       key: 'product_name',
-    },
-    {
-      title: 'order_id',
-      dataIndex: 'order_id',
-      key: 'order_id',
-      render: (orderId: string) => <NavLink to={`/order/${orderId}`}>{orderId}</NavLink>,
+      width: '60px',
     },
   ];
 
@@ -256,11 +256,13 @@ const ModalContent = () => {
         {row.has_finite_capacity}
       </div>
       <br />
-      <div style={{ overflowY: 'scroll' }}>
-        <Table dataSource={data} columns={columns} size="small"
+      <div >
+        <Table dataSource={data}
+               columns={columns}
+               size="small"
                pagination={false}
                scroll={{ x: true, y: '60vh' }}
-               style={{ width: '1000px', maxHeight: '60vh' }}/>
+               style={{ maxHeight: '60vh' }}/>
       </div>
     </div>
   );
