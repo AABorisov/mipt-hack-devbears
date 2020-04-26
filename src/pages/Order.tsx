@@ -3,8 +3,7 @@ import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import order from './mocks/order';
 
-const Order = ({ match: { params } }) => {
-  console.log(params.id);
+const Order = () => {
 
   const columns = [
     {

@@ -1,13 +1,11 @@
-import { useState } from 'react';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Modal, Table, Tag } from 'antd';
-import {ColumnProps} from "antd/es/table/Column";
+import { ColumnProps } from 'antd/es/table/Column';
 import row from './mocks/row';
 import table from './mocks/table';
 
 const DashboardPage: React.FC<{}> = () => {
-  let data;
   const columnSet = new Set();
   const column: Array<ColumnProps<any>> = [
     {
@@ -17,12 +15,12 @@ const DashboardPage: React.FC<{}> = () => {
       fixed: 'left',
     },
   ];
-  data = table.reduce((acc, plant) => {
+  const data = table.reduce((acc, plant) => {
     if (plant.plant_id !== 7) {
       return acc;
     }
 
-    let average = {};
+    const average = {};
 
     const reduced = plant.resourceGroups.reduce((acc2, resourceGroup) => {
       if (
@@ -50,11 +48,12 @@ const DashboardPage: React.FC<{}> = () => {
             columnSet.add(start_plan_date);
 
             if (date.color >= 0) {
+              // @ts-ignore
               if (!average.hasOwnProperty(start_plan_date)) {
                 // @ts-ignore
                 average[start_plan_date] = {
                   percentage: 0,
-                  count: 0
+                  count: 0,
                 };
               }
               // @ts-ignore
@@ -66,7 +65,7 @@ const DashboardPage: React.FC<{}> = () => {
             // @ts-ignore
             acc3[start_plan_date] = {
               percentage: date.percentage,
-              color: date.color
+              color: date.color,
             };
             return acc3;
           }, {}),
@@ -80,25 +79,26 @@ const DashboardPage: React.FC<{}> = () => {
         key: plant.plant_id,
         ...Object.entries(average).reduce((avr, [date, value]) => {
           // @ts-ignore
-          const percentage = (value.percentage / value.count);
+          const percentage = value.percentage / value.count;
+          const color = percentage > 95 ? 2 : percentage > 80 ? 1 : 0;
           // @ts-ignore
           avr[date] = {
             percentage,
-            color: percentage > 95 ? 2 : percentage > 80 ? 1 : 0,
+            color,
           };
-          return avr
-        }, {})
+          return avr;
+        }, {}),
       },
       ...reduced,
     ];
   }, []);
 
-  const percentageRender = (tag: {color: number, percentage: number}) => {
+  const percentageRender = (tag: { color: number; percentage: number }) => {
     if (!tag) {
-      return "";
+      return '';
     }
     let color;
-    switch(tag.color) {
+    switch (tag.color) {
       case 2:
         color = 'green';
         break;
@@ -117,9 +117,7 @@ const DashboardPage: React.FC<{}> = () => {
       default:
         color = 'cyan';
     }
-    return <Tag color={color} >
-      {tag.percentage + ' %'}
-    </Tag>
+    return <Tag color={color}>{`${tag.percentage} %`}</Tag>;
   };
 
   column.push(
@@ -131,7 +129,7 @@ const DashboardPage: React.FC<{}> = () => {
     }))
   );
 
-  const [isShow, togglePopup] = useState<boolean>(false);
+  const [isShow, togglePopup] = React.useState<boolean>(false);
 
   const handleOk = () => {
     togglePopup(false);
@@ -157,14 +155,14 @@ const DashboardPage: React.FC<{}> = () => {
         dataSource={data}
         columns={column}
         pagination={false}
-        scroll={{x:true}}
+        scroll={{ x: true }}
         onRow={(record, rowIndex) => ({
           onClick: event => {
             togglePopup(true);
           },
         })}
-        size='small'
-        style={{width: "1000px"}}
+        size="small"
+        style={{ width: '1000px' }}
       />
     </div>
   );

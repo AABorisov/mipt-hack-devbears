@@ -28,10 +28,12 @@
     "jsx-a11y/click-events-have-key-events": "warn",
     "jsx-a11y/no-noninteractive-element-interactions": "warn",
     "import/prefer-default-export": "warn",
-    "@typescript-eslint/camelcase": "warn",
-    "camelcase": "warn",
+    "@typescript-eslint/camelcase": "off",
+    "camelcase": "off",
     "@typescript-eslint/ban-ts-ignore": "warn",
-    "no-param-reassign": "warn"
+    "no-param-reassign": "warn",
+    "no-nested-ternary": "warn",
+    "no-prototype-builtins": "warn"
   },
   "settings": {
     "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
