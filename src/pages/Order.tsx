@@ -152,10 +152,13 @@ const Order = () => {
       </div>
       <br />
       <div style={{ width: '1000px' }}>
-        <Table dataSource={order.plan_orders} columns={columns} size="small"
-               pagination={false}
-               scroll={{ x: true, y: '60vh' }}
-               style={{ width: '1000px', maxHeight: '60vh' }}
+        <Table
+          dataSource={order.plan_orders}
+          columns={columns}
+          size="small"
+          pagination={false}
+          scroll={{ x: true, y: '60vh' }}
+          style={{ width: '1000px', maxHeight: '60vh' }}
         />
       </div>
     </div>

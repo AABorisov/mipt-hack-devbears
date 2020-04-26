@@ -49,7 +49,7 @@ const DashboardPage: React.FC<{}> = () => {
               percentage: date.percentage,
               color: date.color,
               rgId: resourceGroup.resourceGroupId,
-              date: start_plan_date
+              date: start_plan_date,
             };
             return acc3;
           }, {}),
@@ -89,13 +89,13 @@ const DashboardPage: React.FC<{}> = () => {
 
   const onCellClick = (rgId: string, date: string) => () => {
     togglePopup(true);
-  }
+  };
 
   const percentageRender = (tag: {
     color: number;
-    percentage: number
-    rgId: string,
-    date: string
+    percentage: number;
+    rgId: string;
+    date: string;
   }) => {
     if (!tag) {
       return '';
@@ -120,7 +120,9 @@ const DashboardPage: React.FC<{}> = () => {
       default:
         color = 'cyan';
     }
-    return <Tag color={color} onClick={onCellClick(tag.rgId, tag.date)}>{`${tag.percentage} %`}</Tag>;
+    return (
+      <Tag color={color} onClick={onCellClick(tag.rgId, tag.date)}>{`${tag.percentage} %`}</Tag>
+    );
   };
 
   column.push(
@@ -128,7 +130,7 @@ const DashboardPage: React.FC<{}> = () => {
       title: value,
       dataIndex: value,
       key: value,
-      render: percentageRender
+      render: percentageRender,
     }))
   );
 
@@ -161,7 +163,7 @@ export default DashboardPage;
 const ModalContent = () => {
   const data = row.operations;
 
-  const columns: Array<ColumnProps<any>>  = [
+  const columns: Array<ColumnProps<any>> = [
     {
       title: 'COLAlloc',
       dataIndex: 'order_id',
@@ -256,13 +258,15 @@ const ModalContent = () => {
         {row.has_finite_capacity}
       </div>
       <br />
-      <div >
-        <Table dataSource={data}
-               columns={columns}
-               size="small"
-               pagination={false}
-               scroll={{ x: true, y: '60vh' }}
-               style={{ maxHeight: '60vh' }}/>
+      <div>
+        <Table
+          dataSource={data}
+          columns={columns}
+          size="small"
+          pagination={false}
+          scroll={{ x: true, y: '60vh' }}
+          style={{ maxHeight: '60vh' }}
+        />
       </div>
     </div>
   );
