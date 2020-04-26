@@ -9,7 +9,7 @@ MIPT.HACK accenture track
 
 [slavent](https://github.com/slavent)
 
-[@avk0](https://github.com/avk0)
+[avk0](https://github.com/avk0)
 
 [evgenywork](https://github.com/evgenywork)
 
