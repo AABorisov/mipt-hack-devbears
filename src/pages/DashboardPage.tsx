@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import * as React from 'react';
 import { Modal, Table } from 'antd';
+import { NavLink } from 'react-router-dom';
 import row from './mocks/row';
 import table from './mocks/table';
 
@@ -161,6 +162,12 @@ const ModalContent = () => {
       title: 'Product name',
       dataIndex: 'product_name',
       key: 'product_name',
+    },
+    {
+      title: 'order_id',
+      dataIndex: 'order_id',
+      key: 'order_id',
+      render: (orderId) => <NavLink to={`/order/${orderId}`}>{orderId}</NavLink>,
     },
   ];
 
