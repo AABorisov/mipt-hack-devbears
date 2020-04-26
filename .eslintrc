@@ -12,6 +12,9 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
     "project": "./tsconfig.json",
     "sourceType": "module"
   },
@@ -24,7 +27,11 @@
     "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
     "jsx-a11y/click-events-have-key-events": "warn",
     "jsx-a11y/no-noninteractive-element-interactions": "warn",
-    "import/prefer-default-export": "warn"
+    "import/prefer-default-export": "warn",
+    "@typescript-eslint/camelcase": "warn",
+    "camelcase": "warn",
+    "@typescript-eslint/ban-ts-ignore": "warn",
+    "no-param-reassign": "warn"
   },
   "settings": {
     "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
