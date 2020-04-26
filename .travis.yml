@@ -1,0 +1,15 @@
+sudo: false
+
+language: node_js
+node_js:
+  - 12
+
+branches:
+  only:
+    - master
+
+deploy:
+  provider: heroku
+  app: mipt-hack-devbears
+  api_key:
+    secure: $HEROKU_SECRET_KEY

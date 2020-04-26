@@ -235,7 +235,7 @@ const ModalContent = () => {
       title: 'order_id',
       dataIndex: 'order_id',
       key: 'order_id',
-      render: (orderId) => <NavLink to={`/order/${orderId}`}>{orderId}</NavLink>,
+      render: (orderId: string) => <NavLink to={`/order/${orderId}`}>{orderId}</NavLink>,
     },
   ];
 
