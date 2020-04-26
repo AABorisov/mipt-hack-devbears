@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 import order from './mocks/order';
 
 const Order = () => {
-
   const columns = [
     {
       title: 'plan_order_id',
@@ -153,9 +152,10 @@ const Order = () => {
       </div>
       <br />
       <div style={{ width: '1000px', overflowY: 'scroll' }}>
-        <Table dataSource={order.plan_orders}
-               columns={columns}
-               size="small"
+        <Table dataSource={order.plan_orders} columns={columns} size="small"
+               pagination={false}
+               scroll={{ x: true, y: '60vh' }}
+               style={{ width: '1000px', maxHeight: '60vh' }}
         />
       </div>
     </div>

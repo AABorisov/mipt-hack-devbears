@@ -16,7 +16,6 @@ const DashboardPage: React.FC<{}> = () => {
     },
   ];
   const data = table.reduce((acc, plant) => {
-
     const average = {};
 
     const reduced = plant.resourceGroups.reduce((acc2, resourceGroup) => {
@@ -49,6 +48,8 @@ const DashboardPage: React.FC<{}> = () => {
             acc3[start_plan_date] = {
               percentage: date.percentage,
               color: date.color,
+              rgId: resourceGroup.resourceGroupId,
+              date: start_plan_date
             };
             return acc3;
           }, {}),
@@ -76,7 +77,26 @@ const DashboardPage: React.FC<{}> = () => {
     ];
   }, []);
 
-  const percentageRender = (tag: { color: number; percentage: number }) => {
+  const [isShow, togglePopup] = React.useState<boolean>(false);
+
+  const handleOk = () => {
+    togglePopup(false);
+  };
+
+  const handleCancel = () => {
+    togglePopup(false);
+  };
+
+  const onCellClick = (rgId: string, date: string) => () => {
+    togglePopup(true);
+  }
+
+  const percentageRender = (tag: {
+    color: number;
+    percentage: number
+    rgId: string,
+    date: string
+  }) => {
     if (!tag) {
       return '';
     }
@@ -92,7 +112,7 @@ const DashboardPage: React.FC<{}> = () => {
         color = 'volcano';
         break;
       case -1:
-        color = 'blue';
+        color = 'default';
         break;
       case -2:
         color = 'purple';
@@ -100,7 +120,7 @@ const DashboardPage: React.FC<{}> = () => {
       default:
         color = 'cyan';
     }
-    return <Tag color={color}>{`${tag.percentage} %`}</Tag>;
+    return <Tag color={color} onClick={onCellClick(tag.rgId, tag.date)}>{`${tag.percentage} %`}</Tag>;
   };
 
   column.push(
@@ -108,19 +128,9 @@ const DashboardPage: React.FC<{}> = () => {
       title: value,
       dataIndex: value,
       key: value,
-      render: percentageRender,
+      render: percentageRender
     }))
   );
-
-  const [isShow, togglePopup] = React.useState<boolean>(false);
-
-  const handleOk = () => {
-    togglePopup(false);
-  };
-
-  const handleCancel = () => {
-    togglePopup(false);
-  };
 
   return (
     <div>
@@ -138,14 +148,9 @@ const DashboardPage: React.FC<{}> = () => {
         dataSource={data}
         columns={column}
         pagination={false}
-        scroll={{ x: true, y: 600 }}
-        onRow={(record, rowIndex) => ({
-          onClick: event => {
-            togglePopup(true);
-          },
-        })}
+        scroll={{ x: true, y: '60vh' }}
         size="small"
-        style={{ width: '1000px', height: '70vh' }}
+        style={{ width: '1000px', maxHeight: '60vh' }}
       />
     </div>
   );
@@ -252,7 +257,10 @@ const ModalContent = () => {
       </div>
       <br />
       <div style={{ overflowY: 'scroll' }}>
-        <Table dataSource={data} columns={columns} size="small" />
+        <Table dataSource={data} columns={columns} size="small"
+               pagination={false}
+               scroll={{ x: true, y: '60vh' }}
+               style={{ width: '1000px', maxHeight: '60vh' }}/>
       </div>
     </div>
   );
